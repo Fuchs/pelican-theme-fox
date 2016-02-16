@@ -1,0 +1,5 @@
+/*Custom CSS for swipebox plugin */
+
+#swipebox-overlay img {
+    background-color: #ffffff;
+}

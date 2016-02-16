@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+All Feeds · {{ super() }}
+{% endblock title %}
+
+{% block head_description %}
+All Feeds of the {{ SITENAME|striptags|e }} blog.
+{% endblock head_description %}
+
+{% block meta_tags_in_head %}
+{{ super() }}
+<meta property="og:title" content="All Feeds · {{ SITENAME|striptags|e }}"/>
+<meta name="twitter:title" content="All Feeds · {{ SITENAME|striptags|e }}">
+<meta property="og:url" content="{{ SITEURL }}/feeds.html" />
+<meta property="og:description" content="All Feeds of {{ SITENAME|striptags|e }} blog" />
+<meta name="twitter:description" content="All Feeds of {{ SITENAME|striptags|e }} blog">
+<meta property="og:site_name" content="{{ SITENAME|striptags|e }}" />
+{% endblock meta_tags_in_head %}
+
+{% block content %}
+
+<div class="row-fluid">
+    <header class="page-header span10 offset1">
+    <h1><a href="{{ SITEURL }}/feeds.html">All Feeds</a></h1>
+    </header>
+</div>
+<div class="row-fluid">
+    <div class="span10 offset1">
+        <div class="feed-list">
+            <h2 id="ATOM"><a href="atom">Atom</a></h2>
+                {% if FEED_ALL_ATOM %}
+                <feed>
+                <a href="{{ FEED_ALL_ATOM }}">All articles</a>
+                </feed>
+                {% endif %}
+                {% if AUTHOR_FEED_ATOM %}
+                <br/>
+                {% for author in authors|sort %}
+                {% if author[0] %}
+                {% set URL = AUTHOR_FEED_ATOM.replace('%s', author[0].slug) %}
+                <feed>
+                <a href="{{ URL }}">By author:  &nbsp; &nbsp; &nbsp; &nbsp; {{ author[0].name }}</a>
+                </feed>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if CATEGORY_FEED_ATOM %}
+                <br/>
+                {% for category in categories|sort %}
+                {% if category[0] %}
+                {% set URL = CATEGORY_FEED_ATOM.replace('%s', category[0].slug) %}
+                <feed>
+                <a href="{{ URL }}">By category:  &nbsp; &nbsp; {{ category[0].name }}</a>
+                </feed>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            <br/>
+            <br/>
+            <h2 id="RSS"><a href="#RSS">RSS</a></h2>
+                {% if FEED_ALL_RSS %}
+                <feed>
+                <a href="{{ FEED_ALL_RSS }}">All articles</a>
+                </feed>
+                {% endif %}
+                {% if AUTHOR_FEED_RSS %}
+                <br/>
+                {% for author in authors|sort %}
+                {% if author[0] %}
+                {% set URL = AUTHOR_FEED_RSS.replace('%s', author[0].slug) %}
+                <feed>
+                <a href="{{ URL }}">By author: &nbsp; &nbsp; &nbsp; &nbsp; {{ author[0].name }}</a>
+                </feed>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if CATEGORY_FEED_RSS %}
+                <br/>
+                {% for category in categories|sort %}
+                {% if category[0] %}
+                {% set URL = CATEGORY_FEED_RSS.replace('%s', category[0].slug) %}
+                <feed>
+                <a href="{{ URL }}">By category: &nbsp; &nbsp; {{ category[0].name }}</a>
+                </feed>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
